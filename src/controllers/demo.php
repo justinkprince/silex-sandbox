@@ -8,8 +8,17 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 $demo = $app['controllers_factory'];
 
-$demo->get('/', function (Request $request) use ($app) {
+$demo->get('/', function () use ($app) {
     return $app['twig']->render('demo/index.html.twig');
 })->bind('demo_index');
+
+$demo->get('/json-example', function () use ($app) {
+    $data = [
+        'key' => 'value',
+        'otherKey' => 'otherValue',
+    ];
+
+    return $app->json($data);
+})->bind('demo_json_example');
 
 return $demo;

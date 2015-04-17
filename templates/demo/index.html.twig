@@ -2,15 +2,115 @@
 
 {% block content %}
     <div class="row">
-        <h1>Sandbox Demo</h1>
 
-        <p>This is a sandbox built using:</p>
+        <div class="col-md-8">
+            <h1>Sandbox Demo</h1>
 
-        <ul>
-            <li>Silex, a PHP microframework - <a href="http://silex.sensiolabs.org/">http://silex.sensiolabs.org/</a></li>
-            <li>Twitter Bootstrap, an HTML, CSS, and JS framework - <a href="http://getbootstrap.com/">http://getbootstrap.com/</a></li>
-        </ul>
+            <p>This is a sandbox built using:</p>
 
-        <p>The sandbox is good for small apps, prototypes, and proof-of-concepts.</p>
+            <ul>
+                <li>Silex, a PHP microframework - <a href="http://silex.sensiolabs.org/">http://silex.sensiolabs.org/</a></li>
+                <li>Twitter Bootstrap, an HTML, CSS, and JS framework - <a href="http://getbootstrap.com/">http://getbootstrap.com/</a></li>
+            </ul>
+
+            <p>The sandbox is good for small apps, prototypes, and proof-of-concepts.</p>
+
+            <h2 id="routes">Adding routes</h2>
+
+            <p>To add a simple route, open "src/routes.php" observe the "frontpage" route:</p>
+
+            <pre>
+                $app->get('/', function () use ($app) {
+                    return $app['twig']->render('index.html.twig');
+                })->bind('frontpage');
+            </pre>
+
+            <p>This route is mapped to GET requests to the root path ("/"). It simply returns the rendered "index" Twig template as a Symfony Request object.</p>
+
+            <h2 id="json">Sending a JSON response</h2>
+
+            <p>To return a JSON response, you can use the JSON helper to do something like (see <a href="{{ path('demo_json_example') }}">Demo JSON example</a>):</p>
+
+            <pre>
+                $app->get('/json-example', function () use ($app) {
+                    $data = [
+                        'key' => 'value',
+                        'otherKey' => 'otherValue',
+                    ];
+
+                    return $app->json($data);
+                })->bind('json_example');
+            </pre>
+
+            <h2 id="named-routes">Named routes</h2>
+
+            <p>The bind() method attaches a name to the route. This enables you to generate paths using only the route name. An example in Twig:</p>
+
+            <pre>
+                {{ '{{' }} path('json_example') {{ '}}' }}
+            </pre>
+
+            <h2 id="mounting">Mounting controllers</h2>
+
+            <p>For organizational purposes, you may use the mount() method to assign a block of routes to controllers and include them from separate files.</p>
+
+            <pre>
+                $app->mount('/demo', include 'controllers/demo.php');
+            </pre>
+
+            <p>Then, within the controller file, use the controller_factory to group several routes:</p>
+
+            <pre>
+                $demo = $app['controllers_factory'];
+
+                $demo->get('/', function (Request $request) use ($app) {
+                    return $app['twig']->render('demo/index.html.twig');
+                })->bind('demo_index');
+
+                $demo->get('/json-example', function (Request $request) use ($app) {
+                    $data = [
+                        'key' => 'value',
+                        'otherKey' => 'otherValue',
+                    ];
+
+                    return $app->json($data);
+                })->bind('demo_json_example');
+
+                return $demo;
+            </pre>
+
+            <h2 id="javascript">JavaScript</h2>
+
+            <p>JavaScript can be quickly added to web/js/main.js. In the vendor directory, you'll find several libraries included (but not loaded) for your convenience. They handle URI parsing/generation, templating, cookies, et cetera.</p>
+
+            <h2 id="css">CSS</h2>
+
+            <p>CSS can be added to web/css/main.css.</p>
+        </div>
+
+        <div class="col-md-4">
+            <nav class="hidden-print hidden-xs hidden-sm affix">
+                <ul class="nav bs-docs-sidenav">
+                    <li>
+                        <a href="#routes">Adding Routes</a>
+                    </li>
+                    <li>
+                        <a href="#json">Sending a JSON response</a>
+                    </li>
+                    <li>
+                        <a href="#named-routes">Named Routes</a>
+                    </li>
+                    <li>
+                        <a href="#mounting">Mounting controllers</a>
+                    </li>
+                    <li>
+                        <a href="#javascript">JavaScript</a>
+                    </li>
+                    <li>
+                        <a href="#css">CSS</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
     </div>
 {% endblock %}
