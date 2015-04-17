@@ -41,4 +41,4 @@ _Feel free to edit the ```Makefile``` to customize the port, add new commands, o
 
 Point your browser to ```http://localhost:8888```.
 
-Visit ```http://localhost:8888/demo``` for an example route.
+Visit [http://localhost:8888/demo] for an example route.
