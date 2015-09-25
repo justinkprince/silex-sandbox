@@ -21,10 +21,6 @@ Future features may include:
 Getting started
 ---------------
 
-Clone repo:
-
-    git clone ssh://git@owl.cbsi.com:7999/~jprince/silex-sandbox.git
-
 Move into the project directory:
 
     cd silex-sandbox
